@@ -1,25 +1,22 @@
 <?php
-class Create {
+class Update {
     private $conn;
 
     public function __construct($db){
         $this->conn = $db;
     }
 
-    public function createData($nom , $email) {
-        $query = "INSERT INTO utilisateurs (nom , email) VALUES (:nom , :email)";
+    public function deleteData($id , $nom, $email) {
+        $query = "UPDATE utilisateurs SET :nom , :email WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
+        $stmt->bindParam(":id" , $id);
         $stmt->bindParam(":nom" , $nom);
         $stmt->bindParam(":email" , $email);
-        if ($stmt-> execute()) {
+        if($stmt-> execute()) {
             return true;
         } else {
             return false;
         }
-        $stmt->execute();
-        return $stmt;
     }
 }
-
-?>
